@@ -14,7 +14,6 @@ req.open(
         "screen_name=janetalkstech&" +
         "count=10",
     true);
-console.log(req);
 req.onload = showTweets;
 req.send(null);
 
@@ -22,13 +21,16 @@ var tweetdiv = null;
 
 function showTweets(){
     var tweets = JSON.parse(req.responseText);
+    console.log(tweets);
     for (var i = 0, text; text = tweets[i]; i++){
         //Create li element
         var liwrapper = document.createElement("li");
         //Create text node
         var newContent = document.createTextNode(text['text']);
         //Add content to liwrapper
-        var replacement = newContent.nodeValue.replace('http','my');
+        //var replacement = newContent.nodeValue.replace('http','my');
+        //var replacement = linkifyTweet(newContent);
+        var replacement = Linkify(newContent.nodeValue);
         newContent = document.createTextNode(replacement);
         console.log(replacement);
         liwrapper.appendChild(newContent);
@@ -39,6 +41,23 @@ function showTweets(){
         //Add the updated div to the body
         document.body.appendChild(tweetdiv);
     }
+}
+
+//Credit: http://geekswithblogs.net/Nettuce/archive/2010/03/03/javascript-twitter-linkify.aspx
+function Linkify(text) {
+    text = text.replace(/(https?:\/\/\S+)/gi, function (s) {
+        return '<a href="' + s + '">' + s + '</a>';
+    });
+
+    text = text.replace(/(^|)@(\w+)/gi, function (s) {
+        s = s.substring(1);
+        return '<a href="http://twitter.com/' + s + '">' + s + '</a>';
+    });
+
+    text = text.replace(/(^|)#(\w+)/gi, function (s) {
+        return '<a href="http://search.twitter.com/search?q=' + s.replace(/#/,'%23') + '">' + s + '</a>';
+     });
+    return text;
 }
 
 /* Google Analytics Tracking*/
@@ -63,20 +82,3 @@ for (var i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener('click', trackButtonClick);
 }  
   
-function showPhotos() {
-  var photos = req.responseXML.getElementsByTagName("photo");
-  for (var i = 0, photo; photo = photos[i]; i++) {
-    var img = document.createElement("image");
-    img.src = constructImageURL(photo);
-    document.body.appendChild(img);
-  }
-}
-
-// See: http://www.flickr.com/services/api/misc.urls.html
-function constructImageURL(photo) {
-  return "http://farm" + photo.getAttribute("farm") +
-      ".static.flickr.com/" + photo.getAttribute("server") +
-      "/" + photo.getAttribute("id") +
-      "_" + photo.getAttribute("secret") +
-      "_s.jpg";
-}
