@@ -6,6 +6,7 @@
 
 //Notes: use https and add https twitter to permissions
 var req = new XMLHttpRequest();
+var request = new XMLHttpRequest();
 req.open(
     "GET",
     "https://api.twitter.com/1/statuses/user_timeline.json?" +
@@ -16,28 +17,69 @@ req.open(
     true);
 req.onload = showTweets;
 req.send(null);
+//Getting specific info about a single user
+request.open(
+    "GET",
+    "https://api.twitter.com/1/users/show.json?" +  
+    "screen_name=janetalkstech&" + 
+    "include_entities=true",true);
+request.onload = extendTweets;
+request.send(null);
+
+function extendTweets(){
+    var usr = JSON.parse(request.responseText);
+    //console.log(usr);  
+}
+
 
 var tweetdiv = null;
+var username;
+var date;
+var tweet;
+var pwrapper;
+var datewrapper;
+var contentattribute;
+var dateattribute;
+var user;
+var breaker;
+var link;
 
 function showTweets(){
     var tweets = JSON.parse(req.responseText);
-    console.log(tweets);
+    //console.log(tweets);
     for (var i = 0, text; text = tweets[i]; i++){
-        //Create li element
-        var liwrapper = document.createElement("li");
-        //Create text node
-        var newContent = document.createTextNode(text['text']);
-        //Linkify the tweets
-        newContent.nodeValue = Linkify(newContent.nodeValue);
-        console.log(newContent);
-        //Add content to liwrapper
-        liwrapper.appendChild(newContent);
+        //Create node elements
+        pwrapper = document.createElement("p");
+        breaker = document.createElement("br");
+        datewrapper = document.createElement("em");
+        link = document.createElement("a");
+        //Create text nodes
+        newContent = document.createTextNode(text['text']);
+        date = document.createTextNode(text['created_at']);
+        //Setting up classes
+        contentattribute = document.createAttribute("class");
+        contentattribute.value = "singletweets";
+        dateattribute = document.createAttribute("class");
+        dateattribute.value = "date";
+        //Modify date content
+        datewrapper.appendChild(date);
+        //Add content to pwrapper
+        pwrapper.appendChild(newContent);
+        pwrapper.appendChild(breaker);
+        pwrapper.appendChild(datewrapper);
         //Get the pre-created div element
         tweetdiv = document.getElementById("dawgtweets");
-        //Add the liwrapper to the div
-        tweetdiv.appendChild(liwrapper);
+        //Add the pwrapper to the div
+        tweetdiv.appendChild(pwrapper);
         //Add the updated div to the body
         document.body.appendChild(tweetdiv);
+        //Update attributes
+        
+    }
+    var paragraphs = document.getElementsByTagName('p'); 
+    for (var i = 0; i < paragraphs.length; i++) {
+        paragraphs[i].className += "singletweet";
+        console.log(paragraphs[i]);
     }
 }
 
@@ -58,6 +100,28 @@ function Linkify(text) {
      });
     return text;
 }
+
+function formatDate(date){
+    
+}
+
+function createImage(entity) {
+  var pic = document.createElement("image");
+  for (var i = 0, photo; photo = photos[i]; i++) {
+    var img = document.createElement("image");
+    img.src = constructImageURL(photo);
+    document.body.appendChild(img);
+  }
+}
+
+function constructImageURL(pic) {
+  return "http://farm" + photo.getAttribute("farm") +
+      ".static.flickr.com/" + photo.getAttribute("server") +
+      "/" + photo.getAttribute("id") +
+      "_" + photo.getAttribute("secret") +
+      "_s.jpg";
+}
+
 
 /* Google Analytics Tracking*/
 var _gaq = _gaq || [];
