@@ -4,6 +4,7 @@
 
 //https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=dawgtransit&count=20
 
+//Notes: use https and add https twitter to permissions
 var req = new XMLHttpRequest();
 req.open(
     "GET",
@@ -18,12 +19,10 @@ req.onload = showTweets;
 req.send(null);
 
 function showTweets(){
-    //var tweets = req.responseXML.getElementsByTagName("text");
     var tweets = JSON.parse(req.responseText);
     for (var i = 0, text; text = tweets[i]; i++){
-        console.log(text);
+        console.log(text['text']);
         var tweet = document.createElement("p")
-        document.body.appendChild(tweet);
     }
 }
 
