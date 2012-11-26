@@ -20,19 +20,15 @@ req.send(null);
 
 var display = null;
 var tweetdiv = null;
-var tweetpara = document.createElement("ul");
 
 function showTweets(){
     var tweets = JSON.parse(req.responseText);
     for (var i = 0, text; text = tweets[i]; i++){
         console.log(text['text']);
         var newContent = document.createTextNode(text['text']);
-        var tweetlist = document.createElement("li");
-        tweetlist.appendChild(newContent);
         tweetdiv = document.getElementById("tweets");
         tweetdiv.appendChild(newContent);
         document.body.appendChild(tweetdiv);
-        document.body.appendChild(tweetlist);
     }
 }
 
