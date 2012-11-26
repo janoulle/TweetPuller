@@ -12,7 +12,7 @@ req.open(
         "include_entities=true&" +
         "include_rts=true&" +
         "screen_name=janetalkstech&" +
-        "count=20",
+        "count=10",
     true);
 console.log(req);
 req.onload = showTweets;
@@ -28,6 +28,9 @@ function showTweets(){
         //Create text node
         var newContent = document.createTextNode(text['text']);
         //Add content to liwrapper
+        var replacement = newContent.nodeValue.replace('http','my');
+        newContent = document.createTextNode(replacement);
+        console.log(replacement);
         liwrapper.appendChild(newContent);
         //Get the pre-created div element
         tweetdiv = document.getElementById("dawgtweets");
