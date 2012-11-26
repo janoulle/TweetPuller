@@ -27,12 +27,10 @@ function showTweets(){
         var liwrapper = document.createElement("li");
         //Create text node
         var newContent = document.createTextNode(text['text']);
+        //Linkify the tweets
+        newContent.nodeValue = Linkify(newContent.nodeValue);
+        console.log(newContent);
         //Add content to liwrapper
-        //var replacement = newContent.nodeValue.replace('http','my');
-        //var replacement = linkifyTweet(newContent);
-        var replacement = Linkify(newContent.nodeValue);
-        newContent = document.createTextNode(replacement);
-        console.log(replacement);
         liwrapper.appendChild(newContent);
         //Get the pre-created div element
         tweetdiv = document.getElementById("dawgtweets");
@@ -50,6 +48,7 @@ function Linkify(text) {
     });
 
     text = text.replace(/(^|)@(\w+)/gi, function (s) {
+        //Stripping out the @ symbol
         s = s.substring(1);
         return '<a href="http://twitter.com/' + s + '">' + s + '</a>';
     });
