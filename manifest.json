@@ -1,6 +1,6 @@
 {
   "name": "TweetPuller by Jane Ullah",
-  "version": "0.1",
+  "version": "0.2",
   "manifest_version": 2,
   "description": "Pulls last 10 tweets from the username provided to the program.",
   "browser_action": {
