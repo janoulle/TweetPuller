@@ -43,43 +43,46 @@ function openConnection(){
 
 function showTweets(){
     if (req.status == 200){
+        //Hiding the form.
         document.getElementsByClassName('control-group')[0].setAttribute("style","display: none;");
+        //Providing feedback to user.
+        document.getElementById('notices').innerHTML = "<h4>Tweets for @" + username + "</h4>";
+        //Parse response and load tweets.
+        tweets = JSON.parse(req.responseText);
+        console.log(tweets);
+        for (var i = 0, text; text = tweets[i]; i++){
+            //Create node elements
+            pwrapper = document.createElement("p");
+            pwrapper.setAttribute("class","tweet");
+            breaker = document.createElement("br");
+            datewrapper = document.createElement("em");
+            datewrapper.setAttribute("class","date");
+            //Create text nodes
+            newContent = document.createTextNode(text['text']);
+            date = document.createTextNode(text['created_at']);
+            //Modify date content
+            datewrapper.appendChild(date);
+            //Add content to pwrapper
+            pwrapper.appendChild(newContent);
+            pwrapper.appendChild(breaker);
+            pwrapper.appendChild(datewrapper);
+            //Get the pre-created div element
+            tweetdiv = document.getElementById("tweetdiv");
+            //Add the pwrapper to the div
+            tweetdiv.appendChild(pwrapper);
+            //Add the updated div to the body
+            document.body.appendChild(tweetdiv);
+            //Update attributes
+            
+        }
     }
-    tweets = JSON.parse(req.responseText);
-    console.log(tweets);
-    for (var i = 0, text; text = tweets[i]; i++){
-        //Create node elements
-        pwrapper = document.createElement("p");
-        breaker = document.createElement("br");
-        datewrapper = document.createElement("em");
-        link = document.createElement("a");
-        //Create text nodes
-        newContent = document.createTextNode(text['text']);
-        date = document.createTextNode(text['created_at']);
-        //Setting up classes
-        contentattribute = document.createAttribute("class");
-        contentattribute.value = "singletweets";
-        dateattribute = document.createAttribute("class");
-        dateattribute.value = "date";
-        //Modify date content
-        datewrapper.appendChild(date);
-        //Add content to pwrapper
-        pwrapper.appendChild(newContent);
-        pwrapper.appendChild(breaker);
-        pwrapper.appendChild(datewrapper);
-        //Get the pre-created div element
-        tweetdiv = document.getElementById("dawgtweets");
-        //Add the pwrapper to the div
-        tweetdiv.appendChild(pwrapper);
-        //Add the updated div to the body
-        document.body.appendChild(tweetdiv);
-        //Update attributes
-        
-    }
-    var paragraphs = document.getElementsByTagName('p'); 
-    for (var i = 0; i < paragraphs.length; i++) {
-        paragraphs[i].className += "singletweet";
-        console.log(paragraphs[i]);
+    else{
+        //There was a problem with the XMLHttprequest
+        var error = document.getElementById('errordiv');
+        error.setAttribute("style","display: all;");
+        setTimeout(function() {
+            error.setAttribute("style","display: none;");
+        }, 1500);
     }
 }
 
