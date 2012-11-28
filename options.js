@@ -26,6 +26,10 @@ function restore_options() {
 
 function erase_options(){
     localStorage.removeItem("twitter_username");
+    status.innerHTML = "Stored twitter name removed.";
+    setTimeout(function() {
+        status.innerHTML = "";
+    }, 1500);
     location.reload();
 
 }

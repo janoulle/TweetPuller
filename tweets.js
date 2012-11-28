@@ -49,7 +49,6 @@ function submitForm(){
     if (!username){
         username = result.value;
     }
-    console.log(username);
     openConnection();
 }
 
@@ -113,7 +112,7 @@ function openConnection(){
 
 function showTweets(){
     //If a successful request was made, proceed.
-    console.log(req.status);
+    //console.log(req.status);
     if (req.status == 200){
         //Hiding the form.
         document.getElementsByClassName('control-group')[0].setAttribute("style","display: none;");
