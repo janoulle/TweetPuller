@@ -20,6 +20,7 @@ var outer;
     
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('submit').addEventListener('click', submitForm);
+  document.getElementById('resetbtn').addEventListener('click',clearForm);
 });
 
 //Submit the form
@@ -27,6 +28,11 @@ function submitForm(){
     result = document.getElementById('username');
     username = result.value;
     openConnection();
+}
+
+function clearForm(){
+    var divTweet = document.getElementById('tweetdiv');
+    divTweet.innerHTML = '';
 }
 
 function openConnection(){
@@ -42,6 +48,7 @@ function openConnection(){
     req.onload = showTweets;
     req.send(null);
 }
+
 
 function showTweets(){
     //If a successful request was made, proceed.
