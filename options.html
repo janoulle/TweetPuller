@@ -1,14 +1,18 @@
 <html>
-<head><title>My Test Extension Options</title></head>
+<head><title>TweetPuller Options</title></head>
+<link href="bootstrap.css" rel="stylesheet" media="screen" />
 <script src="bootstrap.js"></script>
 <script src="options.js"></script>
 <body>
-<div class="control-group"> 
-Twitter Username:
-<input id="username" type="text" placeholder="E.g. @janetalkstech" />
-<button id="save" class="btn btn-primary">Save</button>
-<button id="erase" class="btn">Erase</button>
-</div>
+<p class="alert-info">Please enter the twitter username you want stored to your computer and click "Save". To erase this value, simply click the "Erase" button.</p>
+    <form name="getUsername">
+        <fieldset>
+            <legend>Enter A Twitter Username</legend>
+            <input id="username" type="text" class="input-xlarge" placeholder="E.g. @janetalkstech" />
+            <button id="save" type="button" class="btn btn-primary" name="save">Save</button>
+            <button id="erase" type="button" name="erase" class="btn">Erase</button>
+        </fieldset>
+    </form>
 <div id="status"></div>
 </body>
 </html>
