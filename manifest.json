@@ -1,8 +1,8 @@
 {
-  "name": "Jane Talks Tech!",
+  "name": "TweetPuller by Jane Ullah",
   "version": "0.1",
   "manifest_version": 2,
-  "description": "Pulls tweets from @janetalkstech; Not dynamic.",
+  "description": "Pulls last 10 tweets from the username provided to the program.",
   "browser_action": {
       "default_icon": "notepad.png",
       "default_popup": "tweets.html"

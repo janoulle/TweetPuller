@@ -3,7 +3,7 @@
 var result;
 var username; 
 var req;
-var tweetdiv = null;
+var tweetdiv;
 var username;
 var date;
 var tweet;
@@ -17,47 +17,15 @@ var link;
 var tweets;
 var outer;
 
-
-
-/*
-var test = checkStorage();
-  document.getElementById('yes').addEventListener('click',function(){ 
-    username = localStorage["twitter_username"];
-    openConnection();
-    });
-  document.getElementById('no').addEventListener('click',function(){
-    var info = document.getElementById('infodiv');
-    info.setAttribute("style","display: none;");
-    var formd = document.getElementById('formdiv');
-    formd.setAttribute("style","display: all;");
-    });
-    function checkStorage(){
-    var user = localStorage["twitter_username"];
-    console.log(user);
-    if (user){
-        //Displaying the form.
-        var info = document.getElementById('infodiv');
-        info.setAttribute("style","display: all;");
-    }
-    else{
-        var formd = document.getElementById('formdiv');
-        formd.setAttribute("style","display: all;");
-    }
-}
-
-    
-    
-    */
     
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('submit').addEventListener('click', submitForm);
 });
-checkStorage();
 
+//Submit the form
 function submitForm(){
     result = document.getElementById('username');
     username = result.value;
-    console.log("Received " + username);
     openConnection();
 }
 
@@ -76,11 +44,12 @@ function openConnection(){
 }
 
 function showTweets(){
+    //If a successful request was made, proceed.
     if (req.status == 200){
         //Hiding the form.
         document.getElementsByClassName('control-group')[0].setAttribute("style","display: none;");
         //Providing feedback to user.
-        document.getElementById('notices').innerHTML = "<h4>Tweets for @" + username + "</h4>";
+        document.getElementById('notices').innerHTML = "<p class=lead>Tweets for <a href=http://twitter.com/" + username + ">" + username + "</a></p>";
         //Parse response and load tweets.
         tweets = JSON.parse(req.responseText);       
         tweetdiv = document.getElementById("tweetdiv");
@@ -107,6 +76,7 @@ function showTweets(){
             document.body.appendChild(tweetdiv);
         }
     }
+    //Otherwise, show an error message.
     else{
         //There was a problem with the XMLHttprequest
         var error = document.getElementById('errordiv');
@@ -133,6 +103,13 @@ function Linkify(text) {
         return '<a href="http://search.twitter.com/search?q=' + s.replace(/#/,'%23') + '">' + s + '</a>';
      });
     return text;
+}
+
+function link(data){
+    var val = data.nodeValue;
+    var link = document.createElement("a");
+    
+
 }
 
 

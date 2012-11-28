@@ -6,6 +6,7 @@
       body {
         min-width:357px;
         overflow-x:hidden;
+        background-color: #F1DDCF;
       }
       img {
         margin:5px;
@@ -14,8 +15,22 @@
         width:75px;
         height:75px;
       }
-      div#tweetdiv{
-        background-color: #007ACC;
+      ul.tweets {
+        list-style: none;
+        margin-left: 0;
+        padding-left: 1em;
+        text-indent: -1em;
+      }	
+	
+      ul.tweets li:before{
+        content: "\00BB \0020";
+      }
+      ul.tweets li {
+    	 background-color: #C5D8EF;
+         -moz-border-radius: 20px;
+         -webkit-border-radius: 20px;
+         border: 1px solid #79A9E6;
+         padding: 15px;
       }
     </style>
 
@@ -44,7 +59,7 @@
                 </div>
                 <div id="formdiv" style="display: all;">
                     <legend>Enter A Twitter Username</legend>
-                    <input id="username" class="input-large" type="text" placeholder="Twitter user e.g. janetalkstech"/>
+                    <input id="username" class="input-large" type="text" autocomplete="on" placeholder="Twitter user e.g. janetalkstech"/>
                     <button id="submit" type="button" class="btn btn-primary" data-loading-text="loading stuff..." name="submit">Submit</button>
                 </div>
             </div>
