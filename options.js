@@ -2,11 +2,9 @@
 
 // Saves options to localStorage.
 function save_options() {
-  var select = document.getElementById("color");
-  var user = document.getElementById("username");
-  var color = select.children[select.selectedIndex].value;
-  var username = user.value;
-  localStorage["favorite_color"] = color;
+  var input = document.getElementById('username');
+  var username = input.value;
+  console.log(username);
   localStorage["twitter_username"] = username;
 
   // Update status to let user know options were saved.
@@ -14,29 +12,24 @@ function save_options() {
   status.innerHTML = "Options Saved.";
   setTimeout(function() {
     status.innerHTML = "";
-  }, 750);
+  }, 7050);
 }
 
 // Restores select box state to saved value from localStorage.
 function restore_options() {
-  var favorite = localStorage["favorite_color"];
   var username = localStorage["twitter_username"];
-  if (!favorite) {
-    return;
-  }
   if (!username){
     return;
   }
-  var select = document.getElementById("color");
-  var user = document.getElementById("username");
-
-  for (var i = 0; i < select.children.length; i++) {
-    var child = select.children[i];
-    if (child.value == favorite) {
-      child.selected = "true";
-      break;
-    }
-  }
+  localStorage["twitter_username"] = username;
 }
-document.addEventListener('DOMContentReady', restore_options);
-document.querySelector('#save').addEventListener('click', save_options);
+
+function erase_options(){
+    localStorage.removeItem("twitter_username");
+    location.reload();
+
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('save').addEventListener('click', save_options);
+});

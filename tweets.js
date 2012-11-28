@@ -1,51 +1,8 @@
-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 //https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=dawgtransit&count=20
 
-//Notes: use https and add https twitter to permissions
-/* Adding Event Listeners to Buttons*/
-var buttons = document.querySelectorAll('button');
-for (var i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', trackButtonClick);
-}  
-
-jQuery('#submit').bind('click',submitForm);
-function submitForm(){
-    console.log("Got here.");
-}
-
-$('a').css({'background-color':'yellow'});
-function openConnection(){
-var req = new XMLHttpRequest();
-var request = new XMLHttpRequest();
-req.open(
-    "GET",
-    "https://api.twitter.com/1/statuses/user_timeline.json?" +
-        "include_entities=true&" +
-        "include_rts=true&" +
-        "screen_name=janetalkstech&" +
-        "count=10",
-    true);
-req.onload = showTweets;
-req.send(null);
-//Getting specific info about a single user
-request.open(
-    "GET",
-    "https://api.twitter.com/1/users/show.json?" +  
-    "screen_name=janetalkstech&" + 
-    "include_entities=true",true);
-request.onload = extendTweets;
-request.send(null);
-}
-
-function extendTweets(){
-    var usr = JSON.parse(request.responseText);
-    //console.log(usr);  
-}
-
-
+var result;
+var username; 
+var req;
 var tweetdiv = null;
 var username;
 var date;
@@ -57,10 +14,39 @@ var dateattribute;
 var user;
 var breaker;
 var link;
+var tweets;
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('submit').addEventListener('click', submitForm);
+});
+
+function submitForm(){
+    result = document.getElementById('username');
+    username = result.value;
+    console.log("Received " + username);
+    openConnection();
+}
+
+function openConnection(){
+    req = new XMLHttpRequest();
+    req.open(
+        "GET",
+        "https://api.twitter.com/1/statuses/user_timeline.json?" +
+            "include_entities=true&" +
+            "include_rts=true&" +
+            "screen_name=" + username + 
+            "&count=10",
+        true);
+    req.onload = showTweets;
+    req.send(null);
+}
 
 function showTweets(){
-    var tweets = JSON.parse(req.responseText);
-    //console.log(tweets);
+    if (req.status == 200){
+        document.getElementsByClassName('control-group')[0].setAttribute("style","display: none;");
+    }
+    tweets = JSON.parse(req.responseText);
+    console.log(tweets);
     for (var i = 0, text; text = tweets[i]; i++){
         //Create node elements
         pwrapper = document.createElement("p");
@@ -113,27 +99,6 @@ function Linkify(text) {
         return '<a href="http://search.twitter.com/search?q=' + s.replace(/#/,'%23') + '">' + s + '</a>';
      });
     return text;
-}
-
-function formatDate(date){
-    
-}
-
-function createImage(entity) {
-  var pic = document.createElement("image");
-  for (var i = 0, photo; photo = photos[i]; i++) {
-    var img = document.createElement("image");
-    img.src = constructImageURL(photo);
-    document.body.appendChild(img);
-  }
-}
-
-function constructImageURL(pic) {
-  return "http://farm" + photo.getAttribute("farm") +
-      ".static.flickr.com/" + photo.getAttribute("server") +
-      "/" + photo.getAttribute("id") +
-      "_" + photo.getAttribute("secret") +
-      "_s.jpg";
 }
 
 
