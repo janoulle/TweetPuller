@@ -17,14 +17,15 @@
       }
       ul.tweets {
         list-style: none;
-        margin-left: 0;
+        margin-left: -0.5em;
+        margin-right: 0.5em;
         padding-left: 1em;
         text-indent: -1em;
       }	
 	
-      ul.tweets li:before{
+      /*ul.tweets li:before{
         content: "\00BB \0020";
-      }
+      }*/
       ul.tweets li {
     	 background-color: #C5D8EF;
          -moz-border-radius: 20px;
@@ -54,9 +55,7 @@
                 </div>
                 <div id="infodiv" class="alert fade in" style="display: none;">
                     <h4 class="alert-heading">Saved Options Detected</h4>
-                    <p>Want to load your saved user's tweets?
-                    <button id="yes">Yes</button><button id="no">No</button>
-                    </p>
+                    <p>Want to load your saved user's tweets?</p>
                 </div>
                 <div id="formdiv" style="display: all;">
                     <legend>Enter A Twitter Username</legend>
@@ -66,10 +65,11 @@
             </div>
         </fieldset>
   </form>
-  
-    <button type="button" class="btn btn-primary" id="resetbtn" style="display:none;">Reset</button>
+
   
   <div id="tweetdiv">
+  </div>
+  <div id="resetdiv">
   </div>
 
 </body>

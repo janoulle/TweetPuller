@@ -16,12 +16,33 @@ var breaker;
 var link;
 var tweets;
 var outer;
-
+var rbn;
+var rbnExtra;
+var divTweet;
+var formDiv;
+var notice;
+var info;
+var rst;
+var yesBtn;
+var noBtn;
     
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('submit').addEventListener('click', submitForm);
-  document.getElementById('resetbtn').addEventListener('click',clearForm);
+  yesBtn = document.createElement('input');
+    yesBtn.setAttribute("type","button");
+    yesBtn.setAttribute("id","yes");
+    yesBtn.setAttribute("value","Yes");
+    yesBtn.setAttribute("class","btn btn-primary");
+    yesBtn.addEventListener('click',yesClicked);
+
+    noBtn = document.createElement('input');
+    noBtn.setAttribute("type","button");
+    noBtn.setAttribute("id","no");
+    noBtn.setAttribute("value","No");
+    noBtn.setAttribute("class","btn");
+    noBtn.addEventListener('click',noClicked);
 });
+
 
 //Submit the form
 function submitForm(){
@@ -31,8 +52,41 @@ function submitForm(){
 }
 
 function clearForm(){
-    var divTweet = document.getElementById('tweetdiv');
+    rbnExtra = document.querySelectorAll('#resetbtn');
+    for(var i = 0; i < rbnExtra.length; ++i) {
+        rbnExtra[i].parentNode.removeChild(rbnExtra[i]);
+    }
+    divTweet = document.getElementById('tweetdiv');
+    formDiv = document.getElementById('formdiv');
+    notice = document.getElementById('notices');
+    info = document.getElementById('infodiv');
+    info.appendChild(yesBtn);
+    info.appendChild(noBtn);
+    notice.innerHTML = '';
     divTweet.innerHTML = '';
+    formDiv.setAttribute("style","display: none;");
+    usr = localStorage["twitter_username"];
+    document.getElementsByClassName('control-group')[0].setAttribute("style","display: all;");
+    if (usr){
+        info.setAttribute("style","display: all;");
+        document.getElementById('yes').addEventListener('click',yesClicked);
+        document.getElementById('no').addEventListener('click',noClicked);
+    }
+    else{
+        formDiv.setAttribute("style","display:all");
+    }
+}
+
+function yesClicked(){
+    username = usr;
+    info.setAttribute("style","display: none");
+    openConnection();
+}
+
+function noClicked(){
+    formDiv.setAttribute("style","display:all");
+    info.setAttribute("style","display: none");
+    openConnection();
 }
 
 function openConnection(){
@@ -82,6 +136,7 @@ function showTweets(){
             //Add the updated div to the body
             document.body.appendChild(tweetdiv);
         }
+        resetButton();
     }
     //Otherwise, show an error message.
     else{
@@ -92,6 +147,19 @@ function showTweets(){
             error.setAttribute("style","display: none;");
         }, 1500);
     }
+}
+
+function resetButton(){
+    rbn = document.createElement("input");
+    rbn.setAttribute("id","resetbtn");
+    rbn.setAttribute("class","btn btn-primary");
+    rbn.setAttribute("type","button");
+    rbn.setAttribute("value","Clear");
+    rst = document.createElement("div")
+    rst.appendChild(rbn);
+    document.body.appendChild(rst);
+    rbn.addEventListener('click',clearForm);
+    
 }
 
 //Credit: http://geekswithblogs.net/Nettuce/archive/2010/03/03/javascript-twitter-linkify.aspx
