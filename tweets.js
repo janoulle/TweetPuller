@@ -17,9 +17,42 @@ var link;
 var tweets;
 var outer;
 
+
+
+/*
+var test = checkStorage();
+  document.getElementById('yes').addEventListener('click',function(){ 
+    username = localStorage["twitter_username"];
+    openConnection();
+    });
+  document.getElementById('no').addEventListener('click',function(){
+    var info = document.getElementById('infodiv');
+    info.setAttribute("style","display: none;");
+    var formd = document.getElementById('formdiv');
+    formd.setAttribute("style","display: all;");
+    });
+    function checkStorage(){
+    var user = localStorage["twitter_username"];
+    console.log(user);
+    if (user){
+        //Displaying the form.
+        var info = document.getElementById('infodiv');
+        info.setAttribute("style","display: all;");
+    }
+    else{
+        var formd = document.getElementById('formdiv');
+        formd.setAttribute("style","display: all;");
+    }
+}
+
+    
+    
+    */
+    
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('submit').addEventListener('click', submitForm);
 });
+checkStorage();
 
 function submitForm(){
     result = document.getElementById('username');

@@ -12,7 +12,7 @@ function save_options() {
   status.innerHTML = "Options Saved.";
   setTimeout(function() {
     status.innerHTML = "";
-  }, 7050);
+  }, 1500);
 }
 
 // Restores select box state to saved value from localStorage.
@@ -32,4 +32,5 @@ function erase_options(){
 
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('save').addEventListener('click', save_options);
+  document.getElementById('erase').addEventListener('click', erase_options);
 });

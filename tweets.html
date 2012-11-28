@@ -14,7 +14,9 @@
         width:75px;
         height:75px;
       }
-      ul#tweets li:before {content: "\00BB \0020";}	
+      div#tweetdiv{
+        background-color: #007ACC;
+      }
     </style>
 
     <!-- JavaScript and HTML must be in separate files for security. -->
@@ -31,13 +33,20 @@
             </div>
             <div class="control-group">  
                 <div id="errordiv" class="alert alert-block alert-error fade in" style="display: none;">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                        <h4 class="alert-heading">Error loading tweets!</h4>
-                            <p>Check the twitter name entered and try again.</p>
+                    <h4 class="alert-heading">Error loading tweets!</h4>
+                    <p>Check the twitter name entered and try again.</p>
                 </div>
-                <legend>Enter A Twitter Username</legend>
-                <input id="username" class="input-large" type="text" placeholder="Twitter user e.g. janetalkstech"/>
-                <button id="submit" type="button" class="btn btn-primary" data-loading-text="loading stuff..." name="submit">Submit</button>
+                <div id="infodiv" class="alert fade in" style="display: none;">
+                    <h4 class="alert-heading">Saved Options Detected</h4>
+                    <p>Want to load your saved user's tweets?
+                    <button id="yes">Yes</button><button id="no">No</button>
+                    </p>
+                </div>
+                <div id="formdiv" style="display: all;">
+                    <legend>Enter A Twitter Username</legend>
+                    <input id="username" class="input-large" type="text" placeholder="Twitter user e.g. janetalkstech"/>
+                    <button id="submit" type="button" class="btn btn-primary" data-loading-text="loading stuff..." name="submit">Submit</button>
+                </div>
             </div>
         </fieldset>
   </form>
