@@ -7,6 +7,10 @@
       "default_icon": "woman.png",
       "default_popup": "tweets.html"
   },
+  "omnibox": { "keyword" : "tweetpuller" },
+  "icons": {
+        "16": "notes.png"
+    },
   "permissions": [
   "http://*.twitter.com/",
   "https://*.twitter.com/",

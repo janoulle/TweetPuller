@@ -5,6 +5,19 @@
 //https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=dawgtransit&count=20
 
 //Notes: use https and add https twitter to permissions
+/* Adding Event Listeners to Buttons*/
+var buttons = document.querySelectorAll('button');
+for (var i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click', trackButtonClick);
+}  
+
+jQuery('#submit').bind('click',submitForm);
+function submitForm(){
+    console.log("Got here.");
+}
+
+$('a').css({'background-color':'yellow'});
+function openConnection(){
 var req = new XMLHttpRequest();
 var request = new XMLHttpRequest();
 req.open(
@@ -25,6 +38,7 @@ request.open(
     "include_entities=true",true);
 request.onload = extendTweets;
 request.send(null);
+}
 
 function extendTweets(){
     var usr = JSON.parse(request.responseText);
@@ -139,9 +153,4 @@ function trackButton(e) {
     _gaq.push(['_trackEvent', e.target.id, 'clicked']);
 };
 
-/* Adding Event Listeners to Buttons*/
-var buttons = document.querySelectorAll('button');
-for (var i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', trackButtonClick);
-}  
-  
+
