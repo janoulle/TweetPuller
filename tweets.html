@@ -36,14 +36,22 @@
     </style>
 
     <!-- JavaScript and HTML must be in separate files for security. -->
-    <link href="bootstrap.css" rel="stylesheet" media="screen" />  
+    <link href="bootstrap.min.css" rel="stylesheet" media="screen" />  
     <script src="tweets.js"></script>
     <script src="jquery-1.8.3.min.js"></script>
-    <script src="bootstrap.js"></script>
+    <script src="bootstrap.min.js"></script>
     
 </head>
 
 <body>
+
+<ul class="nav nav-pills">
+<li class="active"><a class="btn btn-primary" id="startOver" title="Clicking this button will take you to the page to enter a Twitter username.">Clear</a></li>
+<li><a class="btn" id="about" title="Who wrote this?">About</a></li>
+<li><a class="btn" id="contact" title="Options">Options</a></li>
+</ul>
+
+        
     <form name="getUsername">
         <fieldset>
             <div id="notices">
@@ -66,11 +74,11 @@
         </fieldset>
   </form>
 
-  
+    <div id="resetdiv">
+  </div>
   <div id="tweetdiv">
   </div>
-  <div id="resetdiv">
-  </div>
+
 
 </body>
 </html>

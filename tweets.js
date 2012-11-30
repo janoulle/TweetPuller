@@ -35,7 +35,9 @@ var noBtn = document.createElement('input');
     noBtn.setAttribute("class","btn");
 var noBtn;
 var noClick = false;
-    
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('submit').addEventListener('click', submitForm);
   yesBtn.addEventListener('click',yesClicked);
@@ -174,12 +176,14 @@ function showTweets(){
 }
 
 function showClearButton(){
+    var bar = document.getElementById('resetdiv');
     rbn = document.createElement("input");
     rbn.setAttribute("id","resetbtn");
     rbn.setAttribute("class","btn btn-primary");
     rbn.setAttribute("type","button");
     rbn.setAttribute("value","Clear");
-    document.body.appendChild(rbn);
+    console.log(bar);
+    bar.appendChild(rbn);
     rbn.addEventListener('click',clearForm);    
 }
 
