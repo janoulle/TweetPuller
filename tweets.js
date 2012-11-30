@@ -23,26 +23,26 @@ var formDiv;
 var notice;
 var info;
 var rst;
-var yesBtn = document.createElement("input");
-    yesBtn.setAttribute("type","button");
-    yesBtn.setAttribute("id","yes");
-    yesBtn.setAttribute("value","Yes");
-    yesBtn.setAttribute("class","btn btn-primary");
-var noBtn = document.createElement('input');
-    noBtn.setAttribute("type","button");
-    noBtn.setAttribute("id","no");
-    noBtn.setAttribute("value","No");
-    noBtn.setAttribute("class","btn");
+var yesBtn;
 var noBtn;
+var clearBtn;
 var noClick = false;
 
 
 
 document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('submit').addEventListener('click', submitForm);
+    document.getElementById('submit').addEventListener('click', submitForm);
+    addListeners();
+});
+
+function addListeners(){
+  yesBtn = document.getElementById('yes');
+  noBtn = document.getElementById('no');
+  clearBtn = document.getElementById('clear');
   yesBtn.addEventListener('click',yesClicked);
   noBtn.addEventListener('click',noClicked);
-});
+  clear.addEventListener('click',clearForm);
+}
 
 
 //Submit the form
@@ -63,9 +63,7 @@ function clearForm(){
     divTweet = document.getElementById('tweetdiv');
     formDiv = document.getElementById('formdiv');
     notice = document.getElementById('notices');
-    info = document.getElementById('infodiv');
-    info.appendChild(yesBtn);
-    info.appendChild(noBtn);
+    info  = document.getElementById('infodiv');    
     notice.innerHTML = '';
     divTweet.innerHTML = '';
     usr = localStorage["twitter_username"];
@@ -146,7 +144,6 @@ function showTweets(){
             //Add the updated div to the body
             document.body.appendChild(tweetdiv);
         }
-        showClearButton();
     }
     //Otherwise, show an error message.
     else{
@@ -173,18 +170,6 @@ function showTweets(){
         }, 2000);
         
     }
-}
-
-function showClearButton(){
-    var bar = document.getElementById('resetdiv');
-    rbn = document.createElement("input");
-    rbn.setAttribute("id","resetbtn");
-    rbn.setAttribute("class","btn btn-primary");
-    rbn.setAttribute("type","button");
-    rbn.setAttribute("value","Clear");
-    console.log(bar);
-    bar.appendChild(rbn);
-    rbn.addEventListener('click',clearForm);    
 }
 
 //Credit: http://geekswithblogs.net/Nettuce/archive/2010/03/03/javascript-twitter-linkify.aspx

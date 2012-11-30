@@ -48,13 +48,13 @@
 <body>
 
 <ul class="nav nav-pills">
-<li class="active"><a class="btn btn-primary" id="startOver" title="Clicking this button will take you to the page to enter a Twitter username.">Clear</a></li>
+<li class="active"><a class="btn btn-primary" id="clear" title="Clicking this button will take you to the page to enter a Twitter username.">Clear</a></li>
 <li><a class="btn" id="about" title="Who wrote this?">About</a></li>
 <li><a class="btn" id="contact" title="Options">Options</a></li>
 </ul>
 
         
-    <form name="getUsername">
+    <form name="gettingInput" id="gettingInput">
         <fieldset>
             <div id="notices">
             </div>
@@ -66,6 +66,11 @@
                 <div id="infodiv" class="alert fade in" style="display: none;">
                     <h4 class="alert-heading">Saved Options Detected</h4>
                     <p>Want to load your saved user's tweets? Turn this feature off by going to the Options page.</p>
+                    <input class="btn btn-primary" type="button" id="yes" value="Yes" /><input class="btn" type="button" id="no" value="No" />
+                </div>
+                <div id="authdiv" class="alert fade in" style="display: none;">
+                    <h4 class="alert-heading">Authenticate With Twitter?</h4>
+                    <p>If you already follow this user, please sign in with Twitter to view the protected tweets.</p>
                 </div>
                 <div id="formdiv" style="display: all;">
                     <legend>Enter A Twitter Username</legend>
