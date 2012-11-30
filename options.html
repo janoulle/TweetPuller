@@ -1,18 +1,46 @@
 <html>
 <head><title>TweetPuller Options</title></head>
-<link href="bootstrap.css" rel="stylesheet" media="screen" />
-<script src="bootstrap.js"></script>
+<link href="bootstrap.min.css" rel="stylesheet" media="screen" />
+<script src="bootstrap.min.js"></script>
 <script src="options.js"></script>
 <body>
 <p class="alert-info">Please enter the twitter username you want stored to your computer and click "Save". To erase this value, simply click the "Erase" button.</p>
-    <form name="getUsername">
+
+<form class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label" for="username">Twitter Username</label>
+    <div class="controls">
+      <input type="text" id="username" placeholder="E.g. @janetalkstech">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="tweetsize">Number Of Last Tweets</label>
+    <div class="controls">
+      <input type="text" id="tweetsize" placeholder="Max. is 40" />
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button id="save" type="button" class="btn btn-primary" name="save">Save</button>
+      <button id="erase" type="button" name="erase" class="btn">Erase</button>
+    </div>
+  </div>
+</form>
+
+
+    <!--<form class="form-horizontal" name="getUsername">
         <fieldset>
             <legend>Enter A Twitter Username</legend>
             <input id="username" type="text" class="input-xlarge" placeholder="E.g. @janetalkstech" />
             <button id="save" type="button" class="btn btn-primary" name="save">Save</button>
             <button id="erase" type="button" name="erase" class="btn">Erase</button>
         </fieldset>
-    </form>
+        <fieldset>
+            <legend>Enter The Default Tweet Number.</legend>
+            <input id="tweetsize" type="text" class="input-large" placeholder="Max. is 40" />
+            <button id="saveTweetSize" type="button" class="btn btn-primary">Save</button>
+        </fieldset>
+    </form>-->
 <div id="status"></div>
 </body>
 </html>
