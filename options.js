@@ -6,12 +6,18 @@ function save_options() {
   var tweetsize = document.getElementById('tweetsize');
   var username = input.value;
   var sizeval = tweetsize.value;
-  localStorage["twitter_username"] = username;
+  if (username.length > 0){
+    localStorage["twitter_username"] = username;
+  }
+  else{
+    alert("Defaulting to @twitterapi due to invalid response.");
+  }
   if (sizeval > 0 && sizeval <= 40){
     localStorage["tweet_size"] = sizeval;
   }
   else{
     localStorage["tweet_size"] = 10;
+    var message = document.createTextNode('text');
     alert("Defaulting to tweet size of 10 due to invalid value entered.");
   }
 
