@@ -1,5 +1,3 @@
-// Save this script as `options.js`
-
 // Saves options to localStorage.
 function save_options() {
   var input = document.getElementById('username');
@@ -41,14 +39,14 @@ function restore_options() {
 }
 
 function erase_options(){
+    var status = document.getElementById("status");
     localStorage.removeItem("twitter_username");
     localStorage.removeItem("tweet_size");
     status.innerHTML = "Stored options removed.";
     setTimeout(function() {
         status.innerHTML = "";
-    }, 1500);
-    location.reload();
-
+        location.reload();
+    }, 2000);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
