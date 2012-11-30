@@ -4,7 +4,7 @@
     <title>TweetPuller</title>
     <style>
       body {
-        min-width:400px;
+        min-width:357px;
         overflow-x:hidden;
         background-color: #F1DDCF;
       }
@@ -18,9 +18,9 @@
       ul.tweets {
         list-style: none;
         margin-left: -0.5em;
-        margin-right: 0.5em;
-        padding-left: 1em;
-        text-indent: -1em;
+        margin-right: 0.2em;
+        padding-left: 0.2em;
+        text-indent: 0em;
       }	
 	
       /*ul.tweets li:before{
@@ -37,36 +37,35 @@
 
     <!-- JavaScript and HTML must be in separate files for security. -->
     <link href="bootstrap.min.css" rel="stylesheet" media="screen" />  
-    <link href="alertify.css" rel="stylesheet" media="screen" /> 
     <script src="tweets.js"></script>
     <script src="jquery-1.8.3.min.js"></script>
     <script src="bootstrap.min.js"></script>
-    <script src="alertify.min.js"></script>
     
 </head>
 
 <body>
 
-<ul class="nav nav-pills">
-<li class="active"><a class="btn btn-primary" id="clear" title="Clicking this button will take you to the page to enter a Twitter username.">Clear</a></li>
+<ul id="navigation" class="nav nav-pills">
+<li class="active"><a class="btn btn-primary" id="clear" title="Click to get tweets from a different user or load your saved user's tweets.">Clear</a></li>
 <li><a class="btn" id="about" title="Who wrote this?">About</a></li>
-<li><a class="btn" id="contact" title="Options">Options</a></li>
+<li><a class="btn" id="signin" title="Sign In To Twitter! (Coming Soon)" disabled>Sign In</a></li>
 </ul>
 
-        
+    <!-- For displaying notices and the tweets; Event handler is attached to displayWindow -->    
     <form name="gettingInput" id="gettingInput">
         <fieldset>
             <div id="notices">
             </div>
-            <div class="control-group">  
+            <div id="displayWindow" class="control-group">  
                 <div id="errordiv" class="alert alert-block alert-error fade in" style="display: none;">
                     <h4 class="alert-heading">Error loading tweets!</h4>
-                    <p>Check the twitter name entered and try again.</p>
                 </div>
                 <div id="infodiv" class="alert fade in" style="display: none;">
                     <h4 class="alert-heading">Saved Options Detected</h4>
-                    <p>Want to load your saved user's tweets? Turn this feature off by going to the Options page.</p>
-                    <input class="btn btn-primary" type="button" id="yes" value="Yes" /><input class="btn" type="button" id="no" value="No" />
+                    <p>Want to load your saved user's tweets? Turn this feature off 
+					by going to the Options page and save the form by leaving the username field empty.</p>
+                    <input class="btn btn-primary" type="button" id="yes" value="Yes" />
+					<input class="btn" type="button" id="no" value="No" />
                 </div>
                 <div id="authdiv" class="alert fade in" style="display: none;">
                     <h4 class="alert-heading">Authenticate With Twitter?</h4>
@@ -81,8 +80,7 @@
         </fieldset>
   </form>
 
-    <div id="resetdiv">
-  </div>
+  <!-- Div for displaying the tweets -->
   <div id="tweetdiv">
   </div>
 

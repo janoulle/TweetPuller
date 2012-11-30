@@ -1,8 +1,8 @@
 {
   "name": "TweetPuller by Jane Ullah",
-  "version": "0.3",
+  "version": "0.5",
   "manifest_version": 2,
-  "description": "Pulls last 10 tweets from the username provided to the program.",
+  "description": "Displays the last 10 - 40 tweets from the username provided to the program. Configurable via the Options page.",
   "browser_action": {
       "default_icon": "icon16.png",
       "default_popup": "tweets.html",

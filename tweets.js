@@ -28,22 +28,46 @@ var noBtn;
 var clearBtn;
 var noClick = false;
 
-
-
 document.addEventListener('DOMContentLoaded', function () {
-    document.getElementById('submit').addEventListener('click', submitForm);
-    addListeners();
+	document.getElementById('displayWindow').addEventListener('click',function(e){
+		//Condition is true if a button was clicked.
+		//All caps is essential
+		if (e.target.nodeName == "BUTTON" || e.target.nodeName == "INPUT" ){
+			if (e.target.id == "submit"){
+				submitForm();
+			}
+			else if (e.target.id == "yes"){
+				yesClicked();
+			}
+			else if (e.target.id == "no"){
+				noClicked();
+			}
+		}	
+	});
+	document.getElementById('navigation').addEventListener('click',function(e){
+		if (e.target.id == "clear"){
+			clearForm();
+		}
+		else if (e.target.id == "about"){
+			aboutClicked();
+		}
+		else if (e.target.id == "signin"){
+			authTwitter();
+		}	
+	});
 });
 
-function addListeners(){
-  yesBtn = document.getElementById('yes');
-  noBtn = document.getElementById('no');
-  clearBtn = document.getElementById('clear');
-  yesBtn.addEventListener('click',yesClicked);
-  noBtn.addEventListener('click',noClicked);
-  clear.addEventListener('click',clearForm);
+function aboutClicked(){
+	var divider = document.getElementById('notices');
+	divider.innerHTML = "<p class=alert alert-info>TweetPuller is written by Jane Ullah."
+						+ "Visit <a href=http://janeullah.com title='Jane Ullah's personal"
+						+ " website for more information.'>my site</a>.";
+	setTimeout(function() {divider.innerHTML = '';}, 2000);
 }
 
+function authTwitter(){
+	console.log("Clicked Signin");
+}
 
 //Submit the form
 function submitForm(){
@@ -54,6 +78,7 @@ function submitForm(){
     openConnection();
 }
 
+//Clear the tweets and open up the submit form again or saved options setting
 function clearForm(){
     username = '';
     rbnExtra = document.querySelectorAll('#resetbtn');
@@ -70,6 +95,7 @@ function clearForm(){
     toggleDivs(usr);
 }
 
+//Displays info alerts on or off.
 function toggleDivs(status){
     document.getElementsByClassName('control-group')[0].setAttribute("style","display: all;");
     if (status){
@@ -82,12 +108,15 @@ function toggleDivs(status){
     }
 }
 
+//Clicking the yes in response to the "Saved Options" options
 function yesClicked(){
     username = localStorage["twitter_username"];
+	
     info.setAttribute("style","display: none");
     submitForm();
 }
 
+//Clicking no in response to "Saved Options"
 function noClicked(){
     noClick = true;
     username = '';
@@ -95,7 +124,12 @@ function noClicked(){
     formDiv.setAttribute("style","display:all;");
 }
 
+//Get the Twitter JSON feed
 function openConnection(){
+	var tweetcount = localStorage["tweet_size"];
+	if (!tweetcount){
+		tweetcount = 10;
+	}
     req = new XMLHttpRequest();
     req.open(
         "GET",
@@ -103,16 +137,15 @@ function openConnection(){
             "include_entities=true&" +
             "include_rts=true&" +
             "screen_name=" + username + 
-            "&count=10",
+            "&count=" + tweetcount +
         true);
     req.onload = showTweets;
     req.send(null);
 }
 
-
+//Parse and display the Tweets
 function showTweets(){
     //If a successful request was made, proceed.
-    //console.log(req.status);
     if (req.status == 200){
         //Hiding the form.
         document.getElementsByClassName('control-group')[0].setAttribute("style","display: none;");
