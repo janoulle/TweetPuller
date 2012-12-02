@@ -83,7 +83,6 @@ function submitForm(){
     if (!username){
         if (result.value.length > 0){
             username = result.value;
-            openConnection();
         }
         else{
             error = document.getElementById('errordiv');
@@ -95,15 +94,17 @@ function submitForm(){
             }, 3000);
         }
     }
+    // If there's a username already, just load the connection.
+    openConnection();
 }
 
 //Clear the tweets and open up the submit form again or saved options setting
 function clearForm(){
     username = '';
-    rbnExtra = document.querySelectorAll('#resetbtn');
+    /*rbnExtra = document.querySelectorAll('#resetbtn');
     for(var i = 0; i < rbnExtra.length; ++i) {
         rbnExtra[i].parentNode.removeChild(rbnExtra[i]);
-    }
+    }*/
     divTweet = document.getElementById('tweetdiv');
     formDiv = document.getElementById('formdiv');
     notice = document.getElementById('notices');
@@ -130,7 +131,6 @@ function toggleDivs(status){
 //Clicking the yes in response to the "Saved Options" options
 function yesClicked(){
     username = localStorage["twitter_username"];
-	
     info.setAttribute("style","display: none");
     submitForm();
 }
@@ -172,21 +172,25 @@ function showTweets(){
         document.getElementById('notices').innerHTML = "<p class=lead>Tweets for <a href=http://twitter.com/" + username + ">" + username + "</a></p>";
         //Parse response and load tweets.
         //console.log(req.responseText);
-        tweets = JSON.parse(req.responseText);   
-        //Remove for debugging
-        //console.log(tweets[0].entities);    
+        tweets = JSON.parse(req.responseText);
+        var images = [], index = 0; 
         var i = 0, j = tweets.length;
         for (; i < j; i++){
             var med = tweets[i].entities.media;
-            var url = tweets[i].entities.urls;
-            var hashes = tweets[i].entities.hashtags;
-            console.log("media: " + med);
-            console.log("urls: " + url);
-            console.log("hashes: " + hashes);
+            if (typeof(med) === 'undefined'){
+                //console.log("No media attached.");
+            }
+            else{
+                var mediaurl = tweets[i].entities.media[0].media_url;
+                console.log(mediaurl);
+                images[index] = mediaurl;
+                index++;
+            }
         }
         tweetdiv = document.getElementById("tweetdiv");
         outer = document.createElement("ul");
         outer.setAttribute("class","tweets");
+        //Iterate through the array
         for (var i = 0, text; text = tweets[i]; i++){
             //Create text nodes
             newContent = document.createTextNode(text['text']);
