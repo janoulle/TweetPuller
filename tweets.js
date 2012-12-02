@@ -105,16 +105,12 @@ function submitForm(){
 
 //Clear the tweets and open up the submit form again or saved options setting
 function clearForm(){
-    username = '';
-    /*rbnExtra = document.querySelectorAll('#resetbtn');
-    for(var i = 0; i < rbnExtra.length; ++i) {
-        rbnExtra[i].parentNode.removeChild(rbnExtra[i]);
-    }*/
     divTweet = document.getElementById('tweetdiv');
     formDiv = document.getElementById('formdiv');
     notice = document.getElementById('notices');
     title = document.getElementById('titleTweet');
     info  = document.getElementById('infodiv');    
+    username = '';
     notice.innerHTML = '';
     title.innerHTML = '';
     divTweet.innerHTML = '';
@@ -125,6 +121,7 @@ function clearForm(){
 //Displays info alerts on or off.
 function toggleDivs(status){
     document.getElementsByClassName('control-group')[0].setAttribute("style","display: all;");
+    //Status == usr which will be true if a stored user has been detected.
     if (status){
         info.setAttribute("style","display: all;");
         formDiv.setAttribute("style","display: none;");        
@@ -185,7 +182,7 @@ function getImg(text){
         return img;
     } 
     catch(e){
-        //Error message
+        //console.log(e);
     }
 }
 
@@ -194,18 +191,18 @@ function showTweets(){
     //If a successful request was made, proceed.
     if (req.status == 200){
         //Hiding the form.
+        var imagesOn = localStorage["images_on"];
+        //console.log(imagesOn);
         document.getElementsByClassName('control-group')[0].setAttribute("style","display: none;");
         //Providing feedback to user.
         document.getElementById('titleTweet').innerHTML = "<p class=lead>Tweets for <a href=http://twitter.com/" + username + ">" + username + "</a></p>";
         //Parse response and load tweets.
-        //console.log(req.responseText);
         tweets = JSON.parse(req.responseText);
         tweetdiv = document.getElementById("tweetdiv");
         outer = document.createElement("ul");
         outer.setAttribute("class","tweets");
         //Iterate through the array
         for (var i = 0, text; text = tweets[i]; i++){
-            var img = getImg(text);
             //Create text nodes
             newContent = document.createTextNode(text['text']);
             date = document.createTextNode(text['created_at']);
@@ -219,9 +216,13 @@ function showTweets(){
             //Add content to pwrapper
             pwrapper.appendChild(newContent);
             pwrapper.appendChild(breaker);
-            //Add node to tree if it exists
-            if (img){
-                pwrapper.appendChild(img);
+            //Add images if user wants them
+            if (imagesOn){
+                var img = getImg(text);
+                if (img){
+                    //Add node to tree if it exists             
+                    pwrapper.appendChild(img);
+                }
             }
             pwrapper.appendChild(breaker);
             pwrapper.appendChild(datewrapper);
