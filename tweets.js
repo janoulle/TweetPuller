@@ -55,27 +55,46 @@ document.addEventListener('DOMContentLoaded', function () {
 			authTwitter();
 		}	
 	});
+	document.getElementById('displayWindow').addEventListener('keypress',function(e){
+	    if (e.which == 13){
+	        //Prevent the page from refreshing
+	        e.preventDefault();
+	    	console.log(e);
+	    }	
+	});
 });
 
+//About the writer
 function aboutClicked(){
 	var divider = document.getElementById('notices');
-	divider.innerHTML = "<p class=alert alert-info>TweetPuller is written by Jane Ullah."
+	divider.innerHTML = "<p class=alert alert-info>TweetPuller is written by Jane Ullah. "
 						+ "Visit <a href=http://janeullah.com title='Jane Ullah's personal"
 						+ " website for more information.'>my site</a>.";
-	setTimeout(function() {divider.innerHTML = '';}, 2000);
+	setTimeout(function() {divider.innerHTML = '';}, 2500);
 }
 
 function authTwitter(){
 	console.log("Clicked Signin");
 }
 
-//Submit the form
+//Submit the form. Include more useful error feedback
 function submitForm(){
     result = document.getElementById('username');
     if (!username){
-        username = result.value;
+        if (result.value.length > 0){
+            username = result.value;
+            openConnection();
+        }
+        else{
+            error = document.getElementById('errordiv');
+            error.setAttribute("style","display: all;");
+            error.innerHTML = '<p class="alert alert-error">You didn\'t enter a username. Please do so before submitting this form.';
+            setTimeout(function() {
+                error.setAttribute("style","display: none;");
+                error.innerHTML = '';
+            }, 3000);
+        }
     }
-    openConnection();
 }
 
 //Clear the tweets and open up the submit form again or saved options setting
@@ -152,7 +171,14 @@ function showTweets(){
         //Providing feedback to user.
         document.getElementById('notices').innerHTML = "<p class=lead>Tweets for <a href=http://twitter.com/" + username + ">" + username + "</a></p>";
         //Parse response and load tweets.
-        tweets = JSON.parse(req.responseText);       
+        tweets = JSON.parse(req.responseText);   
+        //Remove for debugging
+        //console.log(tweets[0].entities);    
+        var i = 0, j = tweets.length;
+        for (; i < j; i++){
+            var ent = tweets[i].entities;
+            console.log(ent);        
+        }
         tweetdiv = document.getElementById("tweetdiv");
         outer = document.createElement("ul");
         outer.setAttribute("class","tweets");
@@ -223,7 +249,7 @@ function Linkify(text) {
     return text;
 }
 
-//Function from: http://www.queness.com/post/8567/create-a-dead-simple-twitter-feed-with-jquery
+//Credit: http://www.queness.com/post/8567/create-a-dead-simple-twitter-feed-with-jquery
 function formatDate(dateString) {
         var rightNow = new Date();
         var then = new Date(dateString);
