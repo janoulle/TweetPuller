@@ -214,7 +214,7 @@ function showTweets(){
             datewrapper.setAttribute("class","date");
             datewrapper.appendChild(date);
             //Add content to pwrapper
-            pwrapper.appendChild(newContent);
+            pwrapper.innerHTML = Linkify(newContent.nodeValue);
             pwrapper.appendChild(breaker);
             //Add images if user wants them
             if (imagesOn){
@@ -262,8 +262,6 @@ function Linkify(text) {
     });
 
     text = text.replace(/(^|)@(\w+)/gi, function (s) {
-        //Stripping out the @ symbol
-        s = s.substring(1);
         return '<a href="http://twitter.com/' + s + '">' + s + '</a>';
     });
 
