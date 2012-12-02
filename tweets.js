@@ -66,11 +66,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
 //About the writer
 function aboutClicked(){
-	var divider = document.getElementById('notices');
-	divider.innerHTML = "<p class=alert alert-info>TweetPuller is written by Jane Ullah. "
+	var notice = document.getElementById('notices');
+	notice.setAttribute("style","display: all;");
+	notice.innerHTML = "<p class=alert alert-info>TweetPuller is written by Jane Ullah. "
 						+ "Visit <a href=http://janeullah.com title='Jane Ullah's personal"
 						+ " website for more information.'>my site</a>.";
-	setTimeout(function() {divider.innerHTML = '';}, 2500);
+	setTimeout(function() {	
+	notice.setAttribute("style","display: none;");
+	notice.innerHTML = "<p class=lead>Tweets for <a href=http://twitter.com/" + username + ">" + username + "</a></p>";}, 2500);
+	
+	
 }
 
 function authTwitter(){
@@ -108,8 +113,10 @@ function clearForm(){
     divTweet = document.getElementById('tweetdiv');
     formDiv = document.getElementById('formdiv');
     notice = document.getElementById('notices');
+    title = document.getElementById('titleTweet');
     info  = document.getElementById('infodiv');    
     notice.innerHTML = '';
+    title.innerHTML = '';
     divTweet.innerHTML = '';
     usr = localStorage["twitter_username"];
     toggleDivs(usr);
@@ -170,6 +177,7 @@ function getImg(text){
             //console.log("No media attached.");
         }
         else{
+            console.log(med);
             var mediaurl = text.entities.media[0].media_url;
             var img = document.createElement("img");
             img.src = mediaurl;                
@@ -188,7 +196,7 @@ function showTweets(){
         //Hiding the form.
         document.getElementsByClassName('control-group')[0].setAttribute("style","display: none;");
         //Providing feedback to user.
-        document.getElementById('notices').innerHTML = "<p class=lead>Tweets for <a href=http://twitter.com/" + username + ">" + username + "</a></p>";
+        document.getElementById('titleTweet').innerHTML = "<p class=lead>Tweets for <a href=http://twitter.com/" + username + ">" + username + "</a></p>";
         //Parse response and load tweets.
         //console.log(req.responseText);
         tweets = JSON.parse(req.responseText);
@@ -211,10 +219,12 @@ function showTweets(){
             //Add content to pwrapper
             pwrapper.appendChild(newContent);
             pwrapper.appendChild(breaker);
-            pwrapper.appendChild(datewrapper);
+            //Add node to tree if it exists
             if (img){
                 pwrapper.appendChild(img);
             }
+            pwrapper.appendChild(breaker);
+            pwrapper.appendChild(datewrapper);
             outer.appendChild(pwrapper);
             //Add the pwrapper to the div
             tweetdiv.appendChild(outer);
@@ -229,23 +239,18 @@ function showTweets(){
         var error = document.getElementById('errordiv');
         //Private account
         if (req.status == 401){
-            txt = document.createTextNode("text");
-            txt.nodeValue = 'This twitter account appears to be private. Only public tweets can be displayed.';
-            error.appendChild(txt);
+            error.innerHTML = 'This twitter account appears to be private. Only public tweets can be displayed.';
         }
         //No such user
         if (req.status == 404){
-            txt = document.createTextNode("text");
-            txt.nodeValue = 'This twitter account does not exist. Please check the username entered.';
-            error.appendChild(txt);
+            error.innerHTML = 'This twitter account does not exist. Please check the username entered.';
         }
         error.setAttribute("style","display: all;");
         setTimeout(function() {
             error.setAttribute("style","display: none;");
-            if (txt){txt.parentNode.removeChild(txt);}
+            error.innerHTML = '';
             username = '';
-        }, 2000);
-        
+        }, 2000);        
     }
 }
 

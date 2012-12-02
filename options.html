@@ -1,53 +1,42 @@
 <html>
     <head><title>TweetPuller Options</title>
     <link href="bootstrap.min.css" rel="stylesheet" media="screen" />
-    <link href="alertify.css" rel="stylesheet" media="screen" /> 
+    <script src="jquery-1.8.3.min.js"></script>
     <script src="bootstrap.min.js"></script>
     <script src="options.js"></script>
-    <script src="alertify.min.js"></script>
 </head>
 <body>
-<div class="alert-info">Please enter the twitter username you want stored to your computer and click "Save". To erase this value, simply click the "Erase" button.</div>
 
-<div class="alert alert-error" style="display: none">
 
-</div>
 
 <form class="form-horizontal">
-  <div class="control-group">
-    <label class="control-label" for="username">Twitter Username</label>
-    <div class="controls">
-      <input type="text" id="username" placeholder="E.g. @janetalkstech">
-    </div>
-  </div>
-  <div class="control-group">
-    <label class="control-label" for="tweetsize">Number Of Last Tweets</label>
-    <div class="controls">
-      <input type="text" id="tweetsize" placeholder="Max. is 40" />
-    </div>
-  </div>
-  <div class="control-group">
-    <div class="controls">
-      <button id="save" type="button" class="btn btn-primary" name="save">Save</button>
-      <button id="erase" type="button" name="erase" class="btn">Erase</button>
-    </div>
-  </div>
+    <fieldset>
+        <h2>Settings for TweetPuller</h2>
+            <div class="alert alert-info">Please enter the twitter username and tweet count you want stored to your computer and click "Save". To erase this value, simply click the "Erase" button.</div>
+            <div id="status" class="alert alert-info" style="display: none"></div>
+            <div id="errordiv" class="alert alert-error" style="display: none">
+            </div>
+          <div class="control-group">
+            <label class="control-label" for="username">Twitter Username</label>
+            <div class="controls">
+              <input type="text" id="username" placeholder="E.g. @janetalkstech">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="tweetsize">Number Of Last Tweets</label>
+            <div class="controls">
+              <input type="text" id="tweetsize" placeholder="Max. is 40" />
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <button id="save" type="button" class="btn btn-primary" name="save">Save</button>
+              <button id="erase" type="button" name="erase" class="btn">Erase</button>
+            </div>
+          </div>
+    </fieldset>
 </form>
 
 
-    <!--<form class="form-horizontal" name="getUsername">
-        <fieldset>
-            <legend>Enter A Twitter Username</legend>
-            <input id="username" type="text" class="input-xlarge" placeholder="E.g. @janetalkstech" />
-            <button id="save" type="button" class="btn btn-primary" name="save">Save</button>
-            <button id="erase" type="button" name="erase" class="btn">Erase</button>
-        </fieldset>
-        <fieldset>
-            <legend>Enter The Default Tweet Number.</legend>
-            <input id="tweetsize" type="text" class="input-large" placeholder="Max. is 40" />
-            <button id="saveTweetSize" type="button" class="btn btn-primary">Save</button>
-        </fieldset>
-    </form>-->
-<div id="status"></div>
 </body>
 </html>
