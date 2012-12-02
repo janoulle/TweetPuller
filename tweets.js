@@ -162,6 +162,25 @@ function openConnection(){
     req.send(null);
 }
 
+//Return an image node.
+function getImg(text){
+    try{
+        var med = text.entities.media;
+        if (typeof(med) === 'undefined'){
+            //console.log("No media attached.");
+        }
+        else{
+            var mediaurl = text.entities.media[0].media_url;
+            var img = document.createElement("img");
+            img.src = mediaurl;                
+        }
+        return img;
+    } 
+    catch(e){
+        //Error message
+    }
+}
+
 //Parse and display the Tweets
 function showTweets(){
     //If a successful request was made, proceed.
@@ -173,25 +192,12 @@ function showTweets(){
         //Parse response and load tweets.
         //console.log(req.responseText);
         tweets = JSON.parse(req.responseText);
-        var images = [], index = 0; 
-        var i = 0, j = tweets.length;
-        for (; i < j; i++){
-            var med = tweets[i].entities.media;
-            if (typeof(med) === 'undefined'){
-                //console.log("No media attached.");
-            }
-            else{
-                var mediaurl = tweets[i].entities.media[0].media_url;
-                console.log(mediaurl);
-                images[index] = mediaurl;
-                index++;
-            }
-        }
         tweetdiv = document.getElementById("tweetdiv");
         outer = document.createElement("ul");
         outer.setAttribute("class","tweets");
         //Iterate through the array
         for (var i = 0, text; text = tweets[i]; i++){
+            var img = getImg(text);
             //Create text nodes
             newContent = document.createTextNode(text['text']);
             date = document.createTextNode(text['created_at']);
@@ -206,6 +212,9 @@ function showTweets(){
             pwrapper.appendChild(newContent);
             pwrapper.appendChild(breaker);
             pwrapper.appendChild(datewrapper);
+            if (img){
+                pwrapper.appendChild(img);
+            }
             outer.appendChild(pwrapper);
             //Add the pwrapper to the div
             tweetdiv.appendChild(outer);
