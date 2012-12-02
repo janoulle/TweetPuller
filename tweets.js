@@ -171,13 +171,18 @@ function showTweets(){
         //Providing feedback to user.
         document.getElementById('notices').innerHTML = "<p class=lead>Tweets for <a href=http://twitter.com/" + username + ">" + username + "</a></p>";
         //Parse response and load tweets.
+        //console.log(req.responseText);
         tweets = JSON.parse(req.responseText);   
         //Remove for debugging
         //console.log(tweets[0].entities);    
         var i = 0, j = tweets.length;
         for (; i < j; i++){
-            var ent = tweets[i].entities;
-            console.log(ent);        
+            var med = tweets[i].entities.media;
+            var url = tweets[i].entities.urls;
+            var hashes = tweets[i].entities.hashtags;
+            console.log("media: " + med);
+            console.log("urls: " + url);
+            console.log("hashes: " + hashes);
         }
         tweetdiv = document.getElementById("tweetdiv");
         outer = document.createElement("ul");
