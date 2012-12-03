@@ -1,5 +1,11 @@
 //Create and attach event listeners
 document.addEventListener('DOMContentLoaded', function () {
+    var note = document.getElementById('notices');
+    note.appendChild(document.createElement('br'));
+    var para = document.createElement('p');
+    para.setAttribute('class','text-success');
+    para.innerHTML = 'Current username stored: <strong>' + localStorage["twitter_username"] + '</strong> Current tweet size: <strong>' + localStorage["tweet_size"] + '</strong> Images On: <strong>' + localStorage["images_on"] + '</strong>';
+    note.appendChild(para);
 	document.getElementById('controlBtns').addEventListener('click',function(e){
 	    if (e.target.nodeName == "BUTTON" || e.target.nodeName == "INPUT" ){
             if (e.target.id == "save"){
@@ -13,19 +19,6 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 });
 
-var txt = document.createTextNode('text');
-var al = document.createElement('a');
-var user = localStorage["twitter_username"];
-var count = localStorage["tweet_size"];
-var imgsOn = localStorage["images_on"];
-al.setAttribute('href','https://twitter.com/'+user);
-al.appendChild(document.createTextNode(user));
-console.log(al);
-var note = document.getElementById('notices');
-console.log(note);
-txt.nodeValue = 'Current username stored: ' + user + ' Current tweet size: ' + count + ' Images On: ' + imgsOn;
-console.log(txt);
-
 // Saves options to localStorage.
 function save_options() {
   var input = document.getElementById('username');
@@ -38,7 +31,6 @@ function save_options() {
   var sizeval = tweetsize.value;
   var img = document.getElementById('imagesOn');
   localStorage["images_on"] = img.checked;
-  console.log(img.checked);
   //Making sure username field is not empty
   if (username.length > 0){
     localStorage["twitter_username"] = username;

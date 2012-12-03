@@ -150,7 +150,7 @@ function noClicked(){
 //Get the Twitter JSON feed
 function openConnection(){
 	var tweetcount = localStorage["tweet_size"];
-	if (!tweetcount){
+	if (!tweetcount || typeof(tweetcount) === 'undefined'){
 		tweetcount = 10;
 	}
     req = new XMLHttpRequest();
@@ -166,23 +166,25 @@ function openConnection(){
     req.send(null);
 }
 
-//Return an image node.
+//Return a linked image node.
 function getImg(text){
     try{
+        //Get the relevant block of data
         var med = text.entities.media;
-        if (typeof(med) === 'undefined'){
-            //console.log("No media attached.");
-        }
-        else{
-            console.log(med);
+        var img;
+        if (typeof(med) != 'undefined'){
+            //Get the image URL
             var mediaurl = text.entities.media[0].media_url;
+            var alink = document.createElement("a");
+            alink.href = mediaurl;
             var img = document.createElement("img");
-            img.src = mediaurl;                
+            img.src = mediaurl;               
+            alink.appendChild(img);
         }
-        return img;
+        return alink;
     } 
     catch(e){
-        //console.log(e);
+        console.log(e);
     }
 }
 
@@ -217,7 +219,7 @@ function showTweets(){
             pwrapper.innerHTML = Linkify(newContent.nodeValue);
             pwrapper.appendChild(breaker);
             //Add images if user wants them
-            if (imagesOn){
+            if (imagesOn === 'true'){
                 var img = getImg(text);
                 if (img){
                     //Add node to tree if it exists             
