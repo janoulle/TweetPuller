@@ -68,12 +68,11 @@ document.addEventListener('DOMContentLoaded', function () {
 function aboutClicked(){
 	var notice = document.getElementById('notices');
 	notice.setAttribute("style","display: all;");
-	notice.innerHTML = "<p class=alert alert-info>TweetPuller is written by Jane Ullah. "
-						+ "Visit <a href=http://janeullah.com title='Jane Ullah's personal"
-						+ " website for more information.'>my site</a>.";
+	notice.innerHTML = "<p class=alert>TweetPuller is written by Jane Ullah. "
+						+ "Visit <a target=_blank href=http://janeullah.com title='Jane Ullah's personal website for more information.'>my site</a>.";
 	setTimeout(function() {	
 	notice.setAttribute("style","display: none;");
-	notice.innerHTML = "<p class=lead>Tweets for <a href=http://twitter.com/" + username + ">" + username + "</a></p>";}, 2500);
+	notice.innerHTML = "<p class=lead>Tweets for <a target=_blank href=http://twitter.com/" + username + ">" + username + "</a></p>";}, 2500);
 	
 	
 }
@@ -158,7 +157,7 @@ function openConnection(){
         "GET",
         "https://api.twitter.com/1/statuses/user_timeline.json?" +
             "include_entities=true&" +
-            "include_rts=true&" +
+            "include_rts=false&" +
             "screen_name=" + username + 
             "&count=" + tweetcount +
         true);
@@ -177,6 +176,7 @@ function getImg(text){
             var mediaurl = text.entities.media[0].media_url;
             var alink = document.createElement("a");
             alink.href = mediaurl;
+            alink.title = mediaurl;
             var img = document.createElement("img");
             img.src = mediaurl;               
             alink.appendChild(img);
@@ -260,15 +260,15 @@ function showTweets(){
 //Credit: http://geekswithblogs.net/Nettuce/archive/2010/03/03/javascript-twitter-linkify.aspx
 function Linkify(text) {
     text = text.replace(/(https?:\/\/\S+)/gi, function (s) {
-        return '<a href="' + s + '">' + s + '</a>';
+        return '<a target=_blank href="' + s + '">' + s + '</a>';
     });
 
     text = text.replace(/(^|)@(\w+)/gi, function (s) {
-        return '<a href="http://twitter.com/' + s + '">' + s + '</a>';
+        return '<a target=_blank href="http://twitter.com/' + s + '">' + s + '</a>';
     });
 
     text = text.replace(/(^|)#(\w+)/gi, function (s) {
-        return '<a href="http://search.twitter.com/search?q=' + s.replace(/#/,'%23') + '">' + s + '</a>';
+        return '<a target=_blank href="http://search.twitter.com/search?q=' + s.replace(/#/,'%23') + '">' + s + '</a>';
      });
     return text;
 }
