@@ -51,9 +51,9 @@ document.addEventListener('DOMContentLoaded', function () {
 		else if (e.target.id == "about"){
 			aboutClicked();
 		}
-		else if (e.target.id == "signin"){
+		/*else if (e.target.id == "signin"){
 			authTwitter();
-		}	
+		}*/	
 	});
 	document.getElementById('displayWindow').addEventListener('keypress',function(e){
 	    if (e.which == 13){
@@ -77,29 +77,30 @@ function aboutClicked(){
 	
 }
 
-function authTwitter(){
+/*function authTwitter(){
 	console.log("Clicked Signin");
-}
+}*/
 
 //Submit the form. Include more useful error feedback
 function submitForm(){
     result = document.getElementById('username');
-    if (!username){
-        if (result.value.length > 0){
-            username = result.value;
-        }
-        else{
-            error = document.getElementById('errordiv');
-            error.setAttribute("style","display: all;");
-            error.innerHTML = '<p class="alert alert-error">You didn\'t enter a username. Please do so before submitting this form.';
-            setTimeout(function() {
-                error.setAttribute("style","display: none;");
-                error.innerHTML = '';
-            }, 3000);
-        }
+    if (username){
+        openConnection();
     }
-    // If there's a username already, just load the connection.
-    openConnection();
+    else if (result.value.length > 0 || typeof(username) != 'undefined'){
+        username = result.value;
+        // If there's a username already, just load the connection.
+        openConnection();
+    }
+    else{
+        error = document.getElementById('errordiv');
+        error.setAttribute("style","display: all;");
+        error.innerHTML = '<p class="alert alert-error">You didn\'t enter a username. Please do so before submitting this form.';
+        setTimeout(function() {
+            error.setAttribute("style","display: none;");
+            error.innerHTML = '';
+        }, 3000);
+    }
 }
 
 //Clear the tweets and open up the submit form again or saved options setting
@@ -170,13 +171,14 @@ function getImg(text){
     try{
         //Get the relevant block of data
         var med = text.entities.media;
-        var img;
+        var alink;
         if (typeof(med) != 'undefined'){
             //Get the image URL
             var mediaurl = text.entities.media[0].media_url;
-            var alink = document.createElement("a");
+            alink = document.createElement("a");
             alink.href = mediaurl;
             alink.title = mediaurl;
+            alink.target = '_blank';
             var img = document.createElement("img");
             img.src = mediaurl;               
             alink.appendChild(img);
@@ -197,7 +199,7 @@ function showTweets(){
         //console.log(imagesOn);
         document.getElementsByClassName('control-group')[0].setAttribute("style","display: none;");
         //Providing feedback to user.
-        document.getElementById('titleTweet').innerHTML = "<p class=lead>Tweets for <a href=http://twitter.com/" + username + ">" + username + "</a></p>";
+        document.getElementById('titleTweet').innerHTML = "<p class=lead>Tweets for <a target=_blank href=http://twitter.com/" + username + ">" + username + "</a></p>";
         //Parse response and load tweets.
         tweets = JSON.parse(req.responseText);
         tweetdiv = document.getElementById("tweetdiv");
@@ -237,8 +239,6 @@ function showTweets(){
     }
     //Otherwise, show an error message.
     else{
-        //There was a problem with the XMLHttprequest
-        var txt;
         var error = document.getElementById('errordiv');
         //Private account
         if (req.status == 401){
