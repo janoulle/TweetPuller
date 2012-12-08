@@ -28,6 +28,7 @@ var noBtn;
 var clearBtn;
 var noClick = false;
 
+
 document.addEventListener('DOMContentLoaded', function () {
 	document.getElementById('displayWindow').addEventListener('click',function(e){
 		//Condition is true if a button was clicked.
@@ -64,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 });
 
+
 //About the writer
 function aboutClicked(){
 	var notice = document.getElementById('notices');
@@ -72,9 +74,7 @@ function aboutClicked(){
 						+ "Visit <a target=_blank href=http://janeullah.com title='Jane Ullah's personal website for more information.'>my site</a>.";
 	setTimeout(function() {	
 	notice.setAttribute("style","display: none;");
-	notice.innerHTML = "<p class=lead>Tweets for <a target=_blank href=http://twitter.com/" + username + ">" + username + "</a></p>";}, 2500);
-	
-	
+	notice.innerHTML = "<p class=lead>Tweets for <a target=_blank href=http://twitter.com/" + username + ">" + username + "</a></p>";}, 2500);	
 }
 
 /*function authTwitter(){
@@ -175,6 +175,7 @@ function getImg(text){
         if (typeof(med) != 'undefined'){
             //Get the image URL
             var mediaurl = text.entities.media[0].media_url;
+            //Creating the linked image
             alink = document.createElement("a");
             alink.href = mediaurl;
             alink.title = mediaurl;
@@ -186,7 +187,7 @@ function getImg(text){
         return alink;
     } 
     catch(e){
-        console.log(e);
+        //console.log(e);
     }
 }
 

@@ -8,14 +8,20 @@
       "default_popup": "tweets.html",
       "default_title": "TweetPuller by Jane Ullah"
   },
-  "icons": { "16": "icon16.png",
+  "icons": {  "16": "icon16.png",
               "48": "icon48.png",
               "128": "icon128.png" },
   "options_page":"options.html",
   "permissions": [
-  "http://*.twitter.com/",
-  "https://*.twitter.com/",
-  "unlimitedStorage"
+      "http://*.twitter.com/",
+      "https://*.twitter.com/",
+      "unlimitedStorage",
+      "contextMenus",
+      "notifications"
   ],
+  "background": {
+      "persistent": false,
+      "scripts": ["background.js"]
+  },
    "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
 }
