@@ -75,7 +75,7 @@ function aboutClicked(){
 	setTimeout(function() {	
 	notice.setAttribute("style","display: none;");
 	notice.innerHTML = "<p class=lead>Tweets for <a target=_blank href=http://twitter.com/" + username + ">" + username + "</a></p>";}, 2500);	
-}
+};
 
 /*function authTwitter(){
 	console.log("Clicked Signin");
@@ -101,7 +101,7 @@ function submitForm(){
             error.innerHTML = '';
         }, 3000);
     }
-}
+};
 
 //Clear the tweets and open up the submit form again or saved options setting
 function clearForm(){
@@ -116,7 +116,7 @@ function clearForm(){
     divTweet.innerHTML = '';
     usr = localStorage["twitter_username"];
     toggleDivs(usr);
-}
+};
 
 //Displays info alerts on or off.
 function toggleDivs(status){
@@ -130,14 +130,14 @@ function toggleDivs(status){
         info.setAttribute("style","display: none;");
         formDiv.setAttribute("style","display: all;");
     }
-}
+};
 
 //Clicking the yes in response to the "Saved Options" options
 function yesClicked(){
     username = localStorage["twitter_username"];
     info.setAttribute("style","display: none");
     submitForm();
-}
+};
 
 //Clicking no in response to "Saved Options"
 function noClicked(){
@@ -145,7 +145,7 @@ function noClicked(){
     username = '';
     info.setAttribute("style","display: none;");
     formDiv.setAttribute("style","display:all;");
-}
+};
 
 //Get the Twitter JSON feed
 function openConnection(){
@@ -164,7 +164,7 @@ function openConnection(){
         true);
     req.onload = showTweets;
     req.send(null);
-}
+};
 
 //Return a linked image node.
 function getImg(text){
@@ -189,7 +189,7 @@ function getImg(text){
     catch(e){
         //console.log(e);
     }
-}
+};
 
 //Parse and display the Tweets
 function showTweets(){
@@ -256,7 +256,7 @@ function showTweets(){
             username = '';
         }, 2000);        
     }
-}
+};
 
 //Credit: http://geekswithblogs.net/Nettuce/archive/2010/03/03/javascript-twitter-linkify.aspx
 function Linkify(text) {
@@ -272,7 +272,7 @@ function Linkify(text) {
         return '<a target=_blank href="http://search.twitter.com/search?q=' + s.replace(/#/,'%23') + '">' + s + '</a>';
      });
     return text;
-}
+};
 
 //Credit: http://www.queness.com/post/8567/create-a-dead-simple-twitter-feed-with-jquery
 function formatDate(dateString) {
