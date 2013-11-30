@@ -8,7 +8,10 @@ nonexistent user's page.  Feedback and suggestions for improvement are welcome h
 
 
 ##TODO:
-Allow users to authenticate in order to view protected tweets.
+
+1. Allow users to authenticate in order to view protected tweets.
+2. Update app to use Twitter's oauth scheme
+
 
 ##Problems?
 Tweet me (@janetalkstech) with any problems. This is very much a learning experience so bear with me. :)
