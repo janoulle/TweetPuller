@@ -2,7 +2,7 @@
   "name": "TweetPuller by Jane Ullah",
   "version": "0.7",
   "manifest_version": 2,
-  "description": "This extension displays the last 10 - 40 tweets from the username provided to the program. Easily configurable via the Options page, it's a quick way to check on any non-protected twitter user.",
+  "description": "This extension displays the tweets of any public Twitter user with configuration possible via the Options page",
   "browser_action": {
       "default_icon": "icon16.png",
       "default_popup": "tweets.html",
