@@ -69,11 +69,12 @@ document.addEventListener('DOMContentLoaded', function () {
 function aboutClicked(){
 	var notice = document.getElementById('notices');
 	notice.setAttribute("style","display: all;");
-	notice.innerHTML = "<p class=alert>TweetPuller is written by Jane Ullah. "
-						+ "Visit <a target=_blank href=http://janeullah.com title='Jane Ullah's personal website for more information.'>my site</a>.";
+	notice.innerHTML = "<p class=\"alert alert-success\">TweetPuller is written by Jane Ullah. "
+						+ "Visit <a target=_blank href=http://janeullah.com title='Jane Ullah's personal website for more information.'>my site</a>"
+						+ " and of course, follow me on <a href=\"https://twitter.com/janetalkstech\" title=\"You should follow me on Twitter!\">@janetalkstech</a>! :) ";
 	setTimeout(function() {	
 	notice.setAttribute("style","display: none;");
-	notice.innerHTML = "<p class=lead>Tweets for <a target=_blank href=http://twitter.com/" + username + ">" + username + "</a></p>";}, 2500);
+	notice.innerHTML = "<p class=lead>Tweets for <a target=_blank href=http://twitter.com/" + username + ">" + username + "</a></p>";}, 10500);
 	
 	
 }
@@ -150,63 +151,30 @@ function noClicked(){
 
 
 
+//Get the bearer token. Currently stashing it in localstorage 
+//once retrieved
 function getBearerToken(){
 	var data;
-	//var uri = 'http://apps.janeullah.com/tweetpuller/getToken.php';
-	//var xhr = createCORSRequest('GET',uri);
-	$.get('http://apps.janeullah.com/tweetpuller/getToken.php',function(result){
-		data = JSON.parse(result);
-		if (data === false){
-			console.log(data);
-		}else{
-			token = data.access_token;
-		}
-	});
-	return token;
+	token = localStorage['tweetpuller_bearer'];
+	if (token){
+		console.log('Retrieved from localStorage.');
+		return token;
+	}else{
+		//var uri = 'http://apps.janeullah.com/tweetpuller/getToken.php';
+		//var xhr = createCORSRequest('GET',uri);
+		$.get('http://apps.janeullah.com/tweetpuller/getToken.php',function(result){
+			//console.log(result);
+			data = JSON.parse(result);
+			if (data === false){
+				console.log("Did not successfully retrieve the bearer token.");
+			}else{
+				token = data.access_token;
+				localStorage.setItem('tweetpuller_bearer',token);
+			}
+		});
+		return token;
+	}
 }
-
-//Create the XHR object.
-function createCORSRequest(method, url) {
-  var xhr = new XMLHttpRequest();
-  if ("withCredentials" in xhr) {
-    // XHR for Chrome/Firefox/Opera/Safari.
-    xhr.open(method, url, true);
-  } else if (typeof XDomainRequest != "undefined") {
-    // XDomainRequest for IE.
-    xhr = new XDomainRequest();
-    xhr.open(method, url);
-  } else {
-    // CORS not supported.
-    xhr = null;
-  }
-  return xhr;
-}
-
-
-// Make the actual CORS request.
-function makeCorsRequest() {
-  // All HTML5 Rocks properties support CORS.
-  var url = 'http://apps.janeullah.com/tweetpuller/getToken.php';
-
-  var xhr = createCORSRequest('GET', url);
-  if (!xhr) {
-    console.log('CORS not supported');
-    return;
-  }
-
-  // Response handlers.
-  xhr.onload = function() {
-    var text = xhr.responseText;
-    console.log('Response from CORS request to ' + url);
-  };
-
-  xhr.onerror = function() {
-	  console.log('Woops, there was an error making the request.');
-  };
-
-  xhr.send();
-}
-
 
 //Get the Twitter JSON feed
 function openConnection(){
@@ -215,7 +183,7 @@ function openConnection(){
 		tweetcount = 10;
 	}
 	var tok = getBearerToken();
-	console.log("Token is: " + tok);
+	console.log("Token: " + tok);
 	if (tok !== false){
 	    req = new XMLHttpRequest();
 	    var url = "https://api.twitter.com/1.1/statuses/user_timeline.json?" +
@@ -223,8 +191,7 @@ function openConnection(){
                   "&screen_name=" + username;
 	    req.open("GET",url,true);
 	    //https://developer.mozilla.org/en-US/docs/Web/API/window.btoa?redirectlocale=en-US&redirectslug=DOM%2Fwindow.btoa
-	    req.setRequestHeader("Authorization","Bearer " + btoa(tok));
-	    req.setRequestHeader("Accept-Encoding","gzip");
+	    req.setRequestHeader("Authorization","Bearer " + tok);
 	    req.onload = showTweets;
 	    req.send(null);
 	}else{
@@ -268,6 +235,7 @@ function showTweets(){
         //Providing feedback to user.
         document.getElementById('titleTweet').innerHTML = "<p class=lead>Tweets for <a target=_blank href=http://twitter.com/" + username + ">" + username + "</a></p>";
         //Parse response and load tweets.
+        console.log("Tweets: " + tweets)
         tweets = JSON.parse(req.responseText);
         tweetdiv = document.getElementById("tweetdiv");
         outer = document.createElement("ul");
@@ -346,11 +314,7 @@ function Linkify(text) {
 function formatDate(dateString) {
         var rightNow = new Date();
         var then = new Date(dateString);
-         
-        if ($.browser.msie) {
-            // IE can't parse these crazy Ruby dates
-            then = Date.parse(dateString.replace(/( \+)/, ' UTC$1'));
-        }
+
  
         var diff = rightNow - then;
  
