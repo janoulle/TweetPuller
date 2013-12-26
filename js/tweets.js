@@ -27,6 +27,7 @@ var yesBtn;
 var noBtn;
 var clearBtn;
 var noClick = false;
+var token = false;
 
 document.addEventListener('DOMContentLoaded', function () {
 	document.getElementById('displayWindow').addEventListener('click',function(e){
@@ -147,23 +148,89 @@ function noClicked(){
     formDiv.setAttribute("style","display:all;");
 }
 
+
+
+function getBearerToken(){
+	var data;
+	//var uri = 'http://apps.janeullah.com/tweetpuller/getToken.php';
+	//var xhr = createCORSRequest('GET',uri);
+	$.get('http://apps.janeullah.com/tweetpuller/getToken.php',function(result){
+		data = JSON.parse(result);
+		if (data === false){
+			console.log(data);
+		}else{
+			token = data.access_token;
+		}
+	});
+	return token;
+}
+
+//Create the XHR object.
+function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // XHR for Chrome/Firefox/Opera/Safari.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // XDomainRequest for IE.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
+  }
+  return xhr;
+}
+
+
+// Make the actual CORS request.
+function makeCorsRequest() {
+  // All HTML5 Rocks properties support CORS.
+  var url = 'http://apps.janeullah.com/tweetpuller/getToken.php';
+
+  var xhr = createCORSRequest('GET', url);
+  if (!xhr) {
+    console.log('CORS not supported');
+    return;
+  }
+
+  // Response handlers.
+  xhr.onload = function() {
+    var text = xhr.responseText;
+    console.log('Response from CORS request to ' + url);
+  };
+
+  xhr.onerror = function() {
+	  console.log('Woops, there was an error making the request.');
+  };
+
+  xhr.send();
+}
+
+
 //Get the Twitter JSON feed
 function openConnection(){
 	var tweetcount = localStorage["tweet_size"];
 	if (!tweetcount || typeof(tweetcount) === 'undefined'){
 		tweetcount = 10;
 	}
-    req = new XMLHttpRequest();
-    req.open(
-        "GET",
-        "https://api.twitter.com/1/statuses/user_timeline.json?" +
-            "include_entities=true&" +
-            "include_rts=false&" +
-            "screen_name=" + username + 
-            "&count=" + tweetcount +
-        true);
-    req.onload = showTweets;
-    req.send(null);
+	var tok = getBearerToken();
+	console.log("Token is: " + tok);
+	if (tok !== false){
+	    req = new XMLHttpRequest();
+	    var url = "https://api.twitter.com/1.1/statuses/user_timeline.json?" +
+        		  "count=" + tweetcount +
+                  "&screen_name=" + username;
+	    req.open("GET",url,true);
+	    //https://developer.mozilla.org/en-US/docs/Web/API/window.btoa?redirectlocale=en-US&redirectslug=DOM%2Fwindow.btoa
+	    req.setRequestHeader("Authorization","Bearer " + btoa(tok));
+	    req.setRequestHeader("Accept-Encoding","gzip");
+	    req.onload = showTweets;
+	    req.send(null);
+	}else{
+		var error = document.getElementById('errordiv');
+        error.innerHTML = 'This request was not authenticated properly. Please try again later.';
+	}
 }
 
 //Return a linked image node.
@@ -242,12 +309,14 @@ function showTweets(){
         var error = document.getElementById('errordiv');
         //Private account
         if (req.status == 401){
-            error.innerHTML = 'This twitter account appears to be private. Only public tweets can be displayed.';
+            error.innerHTML = 'This twitter account appears to be private or the request was not authorized. Only public tweets can be displayed.';
+            console.log(req);
         }
         //No such user
         if (req.status == 404){
             error.innerHTML = 'This twitter account does not exist. Please check the username entered.';
         }
+        
         error.setAttribute("style","display: all;");
         setTimeout(function() {
             error.setAttribute("style","display: none;");
